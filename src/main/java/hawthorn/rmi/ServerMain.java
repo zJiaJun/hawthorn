@@ -12,7 +12,6 @@ public class ServerMain {
 
     public static void main(String[] args) throws Exception {
         HelloService helloService = new HelloServiceImpl();
-
         LocateRegistry.createRegistry(8808);
         Naming.bind("rmi://localhost:8808/helloService", helloService);
 
