@@ -154,3 +154,4 @@ gradle/wrapper/
 src/main/resources/
 src/main/scala/
 src/test/
+lombok.config

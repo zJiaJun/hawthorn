@@ -50,8 +50,13 @@ dependencies {
     implementation 'com.caucho:hessian:4.0.60'
     implementation 'io.protostuff:protostuff-core:1.6.0'
     implementation 'io.protostuff:protostuff-runtime:1.6.0'
-
     // Serializer end
+
+
+    // Tools begin
+    implementation 'com.google.guava:guava:28.2-jre'
+
+    // Tools end
 
     // Use Scalatest for testing our library
     testImplementation 'junit:junit:4.12'
