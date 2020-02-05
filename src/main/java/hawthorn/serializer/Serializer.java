@@ -1,5 +1,7 @@
 package hawthorn.serializer;
 
+import java.io.IOException;
+
 /**
  * @author zhujiajun
  * @version 1.0
