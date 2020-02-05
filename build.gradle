@@ -48,6 +48,8 @@ dependencies {
     // Serializer begin
     implementation 'com.alibaba:fastjson:1.2.62'
     implementation 'com.caucho:hessian:4.0.60'
+    implementation 'io.protostuff:protostuff-core:1.6.0'
+    implementation 'io.protostuff:protostuff-runtime:1.6.0'
 
     // Serializer end
 
