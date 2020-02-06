@@ -30,11 +30,6 @@ public class HessianSerializer implements Serializer {
             } catch (IOException e) {
                 //ignore
             }
-            try {
-                baos.close();
-            } catch (IOException e) {
-                //ignore
-            }
         }
         return baos.toByteArray();
     }
@@ -50,11 +45,6 @@ public class HessianSerializer implements Serializer {
             throw new HawthornException(e);
         } finally {
             hessianInput.close();
-            try {
-                bais.close();
-            } catch (IOException e) {
-                //ignore
-            }
         }
         return (T) object;
     }
