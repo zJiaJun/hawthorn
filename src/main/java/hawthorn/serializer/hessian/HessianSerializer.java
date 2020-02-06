@@ -24,6 +24,17 @@ public class HessianSerializer implements Serializer {
             hessianOutput.writeObject(obj);
         } catch (IOException e) {
             throw new HawthornException(e);
+        } finally {
+            try {
+                hessianOutput.close();
+            } catch (IOException e) {
+                //ignore
+            }
+            try {
+                baos.close();
+            } catch (IOException e) {
+                //ignore
+            }
         }
         return baos.toByteArray();
     }
@@ -37,6 +48,13 @@ public class HessianSerializer implements Serializer {
             object = hessianInput.readObject();
         } catch (IOException e) {
             throw new HawthornException(e);
+        } finally {
+            hessianInput.close();
+            try {
+                bais.close();
+            } catch (IOException e) {
+                //ignore
+            }
         }
         return (T) object;
     }

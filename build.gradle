@@ -7,11 +7,9 @@
  */
 
 plugins {
-    // Apply the scala plugin to add support for Scala
+    id 'idea'
+    id 'java'
     id 'scala'
-
-    // Apply the java-library plugin for API and implementation separation.
-    id 'java-library'
     id "io.freefair.lombok" version "4.1.6"
 }
 
