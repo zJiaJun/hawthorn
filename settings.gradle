@@ -8,3 +8,8 @@
  */
 
 rootProject.name = 'hawthorn'
+include 'hawthorn-core'
+include 'hawthorn-registry'
+include 'hawthorn-serializer'
+include 'hawthorn-demo'
+

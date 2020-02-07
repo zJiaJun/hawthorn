@@ -6,23 +6,20 @@
  * User Manual available at https://docs.gradle.org/6.0.1/userguide/scala_plugin.html
  */
 
-plugins {
-    id 'idea'
-    id 'java'
-    id 'scala'
-    id "io.freefair.lombok" version "4.1.6"
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.freefair.gradle:lombok-plugin:4.1.6"
+    }
 }
-
-repositories {
-    //init.gradle already setting
-    /*
-	mavenLocal()
-	maven {
-        	url "http://maven.aliyun.com/nexus/content/groups/public"
-    	}
-    */
-}
-
 
 task showRepos {
     doLast {
@@ -32,34 +29,82 @@ task showRepos {
     }
 }
 
-dependencies {
-    // Use Scala 2.12 in our library project
-    implementation 'org.scala-lang:scala-library:2.12.9'
-
-    // Log begin
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.apache.logging.log4j:log4j-api:2.9.1'
-    implementation 'org.apache.logging.log4j:log4j-core:2.9.1'
-    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.9.1'
-    // Log end
-
-    // Serializer begin
-    implementation 'com.alibaba:fastjson:1.2.62'
-    implementation 'com.caucho:hessian:4.0.60'
-    implementation 'io.protostuff:protostuff-core:1.6.0'
-    implementation 'io.protostuff:protostuff-runtime:1.6.0'
-    // Serializer end
-
-
-    // Tools begin
-    implementation 'com.google.guava:guava:28.2-jre'
-
-    // Tools end
-
-    // Use Scalatest for testing our library
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.scalatest:scalatest_2.12:3.0.8'
-
-    // Need scala-xml at test runtime
-    testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.12:1.2.0'
+ext {
+    scalaVersion = "2.12.9"
+    slf4jVersion = "1.7.25"
+    log4j2Version = "2.9.1"
+    fastjsonVersion = "1.2.62"
+    hessianVersion = "4.0.60"
+    protostuffVersion = "1.6.0"
+    guavaVersion = "28.2-jre"
+    zookeeperVersion = "3.5.6"
+    zkclientVersion = "0.11"
 }
+
+allprojects {
+    group 'com.github.zjiajun'
+    version '0.0.1'
+    apply plugin : 'idea'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'scala'
+    apply plugin:  "io.freefair.lombok"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    dependencies {
+        // Use Scala 2.12 in our library project
+        implementation "org.scala-lang:scala-library:$scalaVersion"
+
+        // Log begin
+        implementation "org.slf4j:slf4j-api:$slf4jVersion"
+        implementation "org.apache.logging.log4j:log4j-api:$log4j2Version"
+        implementation "org.apache.logging.log4j:log4j-core:$log4j2Version"
+        implementation "org.apache.logging.log4j:log4j-slf4j-impl:$log4j2Version"
+        // Log end
+
+        // Tools begin
+        implementation "com.google.guava:guava:$guavaVersion"
+        // Tools end
+
+        // Use Scalatest for testing our library
+        testImplementation 'junit:junit:4.12'
+        testImplementation 'org.scalatest:scalatest_2.12:3.0.8'
+        // Need scala-xml at test runtime
+        testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.12:1.2.0'
+    }
+}
+project(':hawthorn-core') {
+    dependencies {
+
+    }
+}
+project(':hawthorn-registry') {
+    dependencies {
+        implementation project(':hawthorn-core')
+        implementation "org.apache.zookeeper:zookeeper:$zookeeperVersion"
+        implementation "com.101tec:zkclient:$zkclientVersion"
+
+    }
+}
+
+project(':hawthorn-serializer') {
+    dependencies {
+        implementation project(':hawthorn-core')
+        implementation "com.alibaba:fastjson:$fastjsonVersion"
+        implementation "com.caucho:hessian:$hessianVersion"
+        implementation "io.protostuff:protostuff-core:$protostuffVersion"
+        implementation "io.protostuff:protostuff-runtime:$protostuffVersion"
+
+    }
+}
+
+project(':hawthorn-demo') {
+    dependencies {
+        implementation project(':hawthorn-core')
+
+    }
+}
+
