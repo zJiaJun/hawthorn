@@ -2,9 +2,9 @@ package com.github.zjiajun.hawthorn.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
+import java.net.*;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -15,17 +15,19 @@ import java.util.regex.Pattern;
 @Slf4j
 public final class NetUtils {
 
+    private static final String LOCALHOST = "127.0.0.1";
 
-    public static final String LOCALHOST = "127.0.0.1";
-
-    public static final String ANYHOST = "0.0.0.0";
+    private static final String ANYHOST = "0.0.0.0";
 
     private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
 
     private static volatile InetAddress LOCAL_ADDRESS = null;
 
-
     public static InetAddress getLocalAddress() {
+        return getLocalAddress(null);
+    }
+
+    public static InetAddress getLocalAddress(Map<String, Integer> destHostPorts) {
         if (LOCAL_ADDRESS != null) {
             return LOCAL_ADDRESS;
         }
@@ -33,6 +35,10 @@ public final class NetUtils {
         InetAddress localAddress = getLocalAddressByHostname();
         if (!isValidAddress(localAddress)) {
             localAddress = getLocalAddressByNetworkInterface();
+        }
+
+        if (!isValidAddress(localAddress)) {
+            localAddress = getLocalAddressBySocket(destHostPorts);
         }
 
         if (isValidAddress(localAddress)) {
@@ -69,6 +75,26 @@ public final class NetUtils {
             }
         } catch (Exception e) {
             log.error("Failed to query ip address" + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    private static InetAddress getLocalAddressBySocket(Map<String, Integer> destHostPorts) {
+        if (destHostPorts == null || destHostPorts.isEmpty()) {
+            return null;
+        }
+        for (Map.Entry<String, Integer> entry : destHostPorts.entrySet()) {
+            String host = entry.getKey();
+            Integer port = entry.getValue();
+            try {
+                try (Socket socket = new Socket()) {
+                    SocketAddress socketAddress = new InetSocketAddress(host, port);
+                    socket.connect(socketAddress, 1000);
+                    return socket.getLocalAddress();
+                }
+            } catch (Exception e) {
+                log.error("Failed to query ip address" + e.getMessage(), e);
+            }
         }
         return null;
     }
