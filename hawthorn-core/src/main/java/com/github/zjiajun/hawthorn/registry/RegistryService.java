@@ -5,7 +5,7 @@ package com.github.zjiajun.hawthorn.registry;
  * @version 1.0
  * @since 2020/2/8 16:44
  *
- * 服务注册
+ * 服务提供者 服务注册
  */
 public interface RegistryService {
 
