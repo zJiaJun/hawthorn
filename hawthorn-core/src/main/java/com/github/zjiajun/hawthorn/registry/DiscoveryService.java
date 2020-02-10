@@ -8,4 +8,8 @@ package com.github.zjiajun.hawthorn.registry;
  * 服务消费者 服务发现
  */
 public interface DiscoveryService {
+
+    void subscribe(ConsumerInstance consumerInstance);
+
+    void unsubscribe(ConsumerInstance consumerInstance);
 }

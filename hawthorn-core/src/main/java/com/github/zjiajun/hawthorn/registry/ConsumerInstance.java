@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class ConsumerInstance {
 
-    private String app;
+    private String remoteApp;
 
     private String group;
 
