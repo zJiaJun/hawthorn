@@ -17,17 +17,20 @@ public abstract class AbstractRegistry implements Registry {
 
     @Override
     public void unsubscribe(ConsumerInstance consumerInstance) {
-
+        Objects.requireNonNull(consumerInstance, "Registry unsubscribe param consumerInstance is null");
+        doUnsubscribe(consumerInstance);
     }
 
     @Override
     public void register(ProviderInstance providerInstance) {
-
+        Objects.requireNonNull(providerInstance, "Registry register param providerInstance is null");
+        doRegister(providerInstance);
     }
 
     @Override
     public void unregister(ProviderInstance providerInstance) {
-
+        Objects.requireNonNull(providerInstance, "Registry unregister param providerInstance is null");
+        doUnregister(providerInstance);
     }
 
     protected abstract void doSubscribe(ConsumerInstance consumerInstance);
