@@ -1,9 +1,13 @@
 package com.github.zjiajun.register.zookeeper;
 
+import com.github.zjiajun.hawthorn.config.HawthornConfig;
+import com.github.zjiajun.hawthorn.constants.HawthornConstants;
 import com.github.zjiajun.hawthorn.registry.AbstractRegistry;
 import com.github.zjiajun.hawthorn.registry.ConsumerInstance;
 import com.github.zjiajun.hawthorn.registry.ProviderInstance;
 import org.I0Itec.zkclient.ZkClient;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhujiajun
@@ -15,7 +19,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
     private final ZkClient zkClient;
 
     public ZookeeperRegistry() {
-        zkClient = new ZkClient("", 6000, 5000 );
+        zkClient = new ZkClient(HawthornConfig.singleton().zkAddress(), 6000, 5000 );
     }
 
     @Override

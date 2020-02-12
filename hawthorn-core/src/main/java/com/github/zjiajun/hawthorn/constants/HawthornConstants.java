@@ -11,4 +11,10 @@ public final class HawthornConstants {
 
     public static final String DEFAULT_ZK_ADDRESS = "localhost:2181";
 
+    public static final int SECONDS = 1000;
+
+    public static final int DEFAULT_ZK_SESSION_TIMEOUT = 60 * SECONDS;
+
+    public static final int DEFAULT_ZK_CONNECTION_TIMEOUT = 5 * SECONDS;
+
 }

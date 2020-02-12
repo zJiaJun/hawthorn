@@ -31,6 +31,18 @@ public final class HawthornConfig {
         return getString("hawthorn.registry.address", HawthornConstants.DEFAULT_ZK_ADDRESS);
     }
 
+    public int zkSessionTimeout() {
+        return getInt("hawthorn.registry.sessionTimeout", HawthornConstants.DEFAULT_ZK_SESSION_TIMEOUT);
+    }
+
+    public int zkConnectionTimeout() {
+        return getInt("hawthorn.registry.connectionTimeout", HawthornConstants.DEFAULT_ZK_CONNECTION_TIMEOUT);
+    }
+
+    private int getInt(String key, int defaultValue) {
+        return config.hasPath(key) ? config.getInt(key) : defaultValue;
+    }
+
     private String getString(String key, String defaultValue) {
         Objects.requireNonNull(key, "Config key must not be null");
         return config.hasPath(key) ? config.getString(key) : defaultValue;
