@@ -9,8 +9,8 @@ package com.github.zjiajun.hawthorn.registry;
  */
 public interface RegistryService {
 
-    void register(ProviderInstance providerInstance);
+    void register(RegisterInfo registerInfo);
 
-    void unregister(ProviderInstance providerInstance);
+    void unregister(RegisterInfo registerInfo);
 
 }

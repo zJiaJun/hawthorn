@@ -10,34 +10,34 @@ import java.util.Objects;
 public abstract class AbstractRegistry implements Registry {
 
     @Override
-    public void subscribe(ConsumerInstance consumerInstance) {
-        Objects.requireNonNull(consumerInstance, "Registry subscribe param consumerInstance is null");
-        doSubscribe(consumerInstance);
+    public void subscribe(RegisterInfo registerInfo) {
+        Objects.requireNonNull(registerInfo, "Registry subscribe param registerInfo is null");
+        doSubscribe(registerInfo);
     }
 
     @Override
-    public void unsubscribe(ConsumerInstance consumerInstance) {
-        Objects.requireNonNull(consumerInstance, "Registry unsubscribe param consumerInstance is null");
-        doUnsubscribe(consumerInstance);
+    public void unsubscribe(RegisterInfo registerInfo) {
+        Objects.requireNonNull(registerInfo, "Registry unsubscribe param registerInfo is null");
+        doUnsubscribe(registerInfo);
     }
 
     @Override
-    public void register(ProviderInstance providerInstance) {
-        Objects.requireNonNull(providerInstance, "Registry register param providerInstance is null");
-        doRegister(providerInstance);
+    public void register(RegisterInfo registerInfo) {
+        Objects.requireNonNull(registerInfo, "Registry register param registerInfo is null");
+        doRegister(registerInfo);
     }
 
     @Override
-    public void unregister(ProviderInstance providerInstance) {
-        Objects.requireNonNull(providerInstance, "Registry unregister param providerInstance is null");
-        doUnregister(providerInstance);
+    public void unregister(RegisterInfo registerInfo) {
+        Objects.requireNonNull(registerInfo, "Registry unregister param registerInfo is null");
+        doUnregister(registerInfo);
     }
 
-    protected abstract void doSubscribe(ConsumerInstance consumerInstance);
+    protected abstract void doSubscribe(RegisterInfo registerInfo);
 
-    protected abstract void doUnsubscribe(ConsumerInstance consumerInstance);
+    protected abstract void doUnsubscribe(RegisterInfo registerInfo);
 
-    protected abstract void doRegister(ProviderInstance providerInstance);
+    protected abstract void doRegister(RegisterInfo registerInfo);
 
-    protected abstract void doUnregister(ProviderInstance providerInstance);
+    protected abstract void doUnregister(RegisterInfo registerInfo);
 }

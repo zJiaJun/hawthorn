@@ -9,7 +9,7 @@ package com.github.zjiajun.hawthorn.registry;
  */
 public interface DiscoveryService {
 
-    void subscribe(ConsumerInstance consumerInstance);
+    void subscribe(RegisterInfo registerInfo);
 
-    void unsubscribe(ConsumerInstance consumerInstance);
+    void unsubscribe(RegisterInfo registerInfo);
 }

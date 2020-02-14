@@ -1,7 +1,7 @@
 package com.github.zjiajun.register.zookeeper;
 
 import com.github.zjiajun.hawthorn.constants.HawthornConstants;
-import com.github.zjiajun.hawthorn.registry.ProviderInstance;
+import com.github.zjiajun.hawthorn.registry.RegisterInfo;
 
 /**
  * @author zhujiajun
@@ -10,19 +10,19 @@ import com.github.zjiajun.hawthorn.registry.ProviderInstance;
  */
 public final class ZkNodeUtils {
 
-    public static String buildGroupPath(ProviderInstance providerInstance) {
-        return HawthornConstants.ZK_ROOT_PATH + HawthornConstants.PATH_SEPARATOR + providerInstance.getApp() + HawthornConstants.PATH_SEPARATOR + providerInstance.getGroup();
+    public static String buildGroupPath(RegisterInfo registerInfo) {
+        return HawthornConstants.ZK_ROOT_PATH + HawthornConstants.PATH_SEPARATOR + registerInfo.getApp() + HawthornConstants.PATH_SEPARATOR + registerInfo.getGroup();
     }
 
-    public static String buildServicePath(ProviderInstance providerInstance) {
-        return buildGroupPath(providerInstance) + HawthornConstants.PATH_SEPARATOR + providerInstance.getService();
+    public static String buildServicePath(RegisterInfo registerInfo) {
+        return buildGroupPath(registerInfo) + HawthornConstants.PATH_SEPARATOR + registerInfo.getService();
     }
 
-    public static String buildServiceTypePath(ProviderInstance providerInstance, String type) {
-        return buildServicePath(providerInstance) + HawthornConstants.PATH_SEPARATOR + type;
+    public static String buildServiceTypePath(RegisterInfo registerInfo, String type) {
+        return buildServicePath(registerInfo) + HawthornConstants.PATH_SEPARATOR + type;
     }
 
-    public static String buildCompletePath(ProviderInstance providerInstance, String type) {
-        return buildServiceTypePath(providerInstance, type) + HawthornConstants.PATH_SEPARATOR + providerInstance.getHost() + ":" + providerInstance.getPort();
+    public static String buildCompletePath(RegisterInfo registerInfo, String type) {
+        return buildServiceTypePath(registerInfo, type) + HawthornConstants.PATH_SEPARATOR + registerInfo.getHost() + ":" + registerInfo.getPort();
     }
 }

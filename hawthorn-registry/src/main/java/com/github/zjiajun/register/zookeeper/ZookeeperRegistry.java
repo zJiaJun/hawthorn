@@ -3,8 +3,7 @@ package com.github.zjiajun.register.zookeeper;
 import com.github.zjiajun.hawthorn.config.HawthornConfig;
 import com.github.zjiajun.hawthorn.constants.HawthornConstants;
 import com.github.zjiajun.hawthorn.registry.AbstractRegistry;
-import com.github.zjiajun.hawthorn.registry.ConsumerInstance;
-import com.github.zjiajun.hawthorn.registry.ProviderInstance;
+import com.github.zjiajun.hawthorn.registry.RegisterInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.I0Itec.zkclient.IZkStateListener;
 import org.I0Itec.zkclient.ZkClient;
@@ -50,28 +49,31 @@ public class ZookeeperRegistry extends AbstractRegistry {
     }
 
     @Override
-    protected void doSubscribe(ConsumerInstance consumerInstance) {
+    protected void doSubscribe(RegisterInfo registerInfo) {
 
 
     }
 
     @Override
-    protected void doUnsubscribe(ConsumerInstance consumerInstance) {
+    protected void doUnsubscribe(RegisterInfo registerInfo) {
 
     }
 
     @Override
-    protected void doRegister(ProviderInstance providerInstance) {
-        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(providerInstance, HawthornConstants.PROVIDERS);
+    protected void doRegister(RegisterInfo registerInfo) {
+        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
         if (!zkClient.exists(serviceTypePath)) {
             zkClient.createPersistent(serviceTypePath, true);
         }
-        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(providerInstance, HawthornConstants.PROVIDERS), "data?");
+        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS));
     }
 
     @Override
-    protected void doUnregister(ProviderInstance providerInstance) {
-
+    protected void doUnregister(RegisterInfo registerInfo) {
+        String completePath = ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS);
+        if (zkClient.exists(completePath)) {
+            zkClient.delete(completePath);
+        }
     }
 
     @Override
