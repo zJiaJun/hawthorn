@@ -1,5 +1,6 @@
 package com.github.zjiajun.hawthorn.registry;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * 服务提供者注册信息
  */
 @Data
+@Builder
 public class RegisterInfo {
 
     /**

@@ -5,9 +5,12 @@ import com.github.zjiajun.hawthorn.constants.HawthornConstants;
 import com.github.zjiajun.hawthorn.registry.AbstractRegistry;
 import com.github.zjiajun.hawthorn.registry.RegisterInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkStateListener;
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.Watcher;
+
+import java.util.List;
 
 
 /**
@@ -50,6 +53,13 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
     @Override
     protected void doSubscribe(RegisterInfo registerInfo) {
+        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
+        zkClient.subscribeChildChanges(serviceTypePath, new IZkChildListener() {
+            @Override
+            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
+
+            }
+        });
 
 
     }
@@ -65,7 +75,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
         if (!zkClient.exists(serviceTypePath)) {
             zkClient.createPersistent(serviceTypePath, true);
         }
-        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS));
+        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS), ZkNodeUtils.toData(registerInfo));
     }
 
     @Override
