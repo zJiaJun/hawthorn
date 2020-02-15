@@ -38,7 +38,6 @@ public final class ZkNodeUtils {
 
     public static RegisterInfo parseData(String zkNodeData) {
         Map<String, String> providerMap = Splitter.on("&").withKeyValueSeparator("=").split(zkNodeData);
-
         return RegisterInfo.builder().app(providerMap.get("app"))
                 .group(providerMap.get("group"))
                 .service(providerMap.get("service"))

@@ -10,9 +10,9 @@ import java.util.Objects;
 public abstract class AbstractRegistry implements Registry {
 
     @Override
-    public void subscribe(RegisterInfo registerInfo) {
+    public void subscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         Objects.requireNonNull(registerInfo, "Registry subscribe param registerInfo is null");
-        doSubscribe(registerInfo);
+        doSubscribe(registerInfo, notifyListener);
     }
 
     @Override
@@ -33,7 +33,7 @@ public abstract class AbstractRegistry implements Registry {
         doUnregister(registerInfo);
     }
 
-    protected abstract void doSubscribe(RegisterInfo registerInfo);
+    protected abstract void doSubscribe(RegisterInfo registerInfo, NotifyListener notifyListener);
 
     protected abstract void doUnsubscribe(RegisterInfo registerInfo);
 
