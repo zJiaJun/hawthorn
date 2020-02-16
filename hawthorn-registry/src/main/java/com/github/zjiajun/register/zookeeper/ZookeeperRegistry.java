@@ -69,6 +69,13 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
     @Override
     protected void doUnsubscribe(RegisterInfo registerInfo) {
+        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
+        zkClient.unsubscribeChildChanges(serviceTypePath, new IZkChildListener() {
+            @Override
+            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
+
+            }
+        });
 
     }
 
