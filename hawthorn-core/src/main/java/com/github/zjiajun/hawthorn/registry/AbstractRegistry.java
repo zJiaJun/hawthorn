@@ -16,9 +16,9 @@ public abstract class AbstractRegistry implements Registry {
     }
 
     @Override
-    public void unsubscribe(RegisterInfo registerInfo) {
+    public void unsubscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         Objects.requireNonNull(registerInfo, "Registry unsubscribe param registerInfo is null");
-        doUnsubscribe(registerInfo);
+        doUnsubscribe(registerInfo, notifyListener);
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class AbstractRegistry implements Registry {
 
     protected abstract void doSubscribe(RegisterInfo registerInfo, NotifyListener notifyListener);
 
-    protected abstract void doUnsubscribe(RegisterInfo registerInfo);
+    protected abstract void doUnsubscribe(RegisterInfo registerInfo, NotifyListener notifyListener);
 
     protected abstract void doRegister(RegisterInfo registerInfo);
 

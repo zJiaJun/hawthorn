@@ -11,5 +11,5 @@ public interface DiscoveryService {
 
     void subscribe(RegisterInfo registerInfo, NotifyListener notifyListener);
 
-    void unsubscribe(RegisterInfo registerInfo);
+    void unsubscribe(RegisterInfo registerInfo, NotifyListener notifyListener);
 }

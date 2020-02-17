@@ -62,18 +62,20 @@ public class ZookeeperRegistry extends AbstractRegistry {
 
                 List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
                 notifyListener.notify(registerInfoList);
-                log.info("ZookeeperRegistry service list change: path={}, currentChilds={}", parentPath, currentChilds);
+                log.info("ZookeeperRegistry subscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
             }
         });
     }
 
     @Override
-    protected void doUnsubscribe(RegisterInfo registerInfo) {
+    protected void doUnsubscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
         zkClient.unsubscribeChildChanges(serviceTypePath, new IZkChildListener() {
             @Override
             public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
-
+                List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
+                notifyListener.notify(registerInfoList);
+                log.info("ZookeeperRegistry unsubscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
             }
         });
 
