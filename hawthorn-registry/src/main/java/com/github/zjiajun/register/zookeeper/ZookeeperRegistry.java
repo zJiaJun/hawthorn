@@ -54,6 +54,23 @@ public class ZookeeperRegistry extends AbstractRegistry {
     }
 
     @Override
+    protected void doRegister(RegisterInfo registerInfo) {
+        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
+        if (!zkClient.exists(serviceTypePath)) {
+            zkClient.createPersistent(serviceTypePath, true);
+        }
+        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS), ZkNodeUtils.toData(registerInfo));
+    }
+
+    @Override
+    protected void doUnregister(RegisterInfo registerInfo) {
+        String completePath = ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS);
+        if (zkClient.exists(completePath)) {
+            zkClient.delete(completePath);
+        }
+    }
+
+    @Override
     protected void doSubscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
         zkClient.subscribeChildChanges(serviceTypePath, new IZkChildListener() {
@@ -79,23 +96,6 @@ public class ZookeeperRegistry extends AbstractRegistry {
             }
         });
 
-    }
-
-    @Override
-    protected void doRegister(RegisterInfo registerInfo) {
-        String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
-        if (!zkClient.exists(serviceTypePath)) {
-            zkClient.createPersistent(serviceTypePath, true);
-        }
-        zkClient.createEphemeral(ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS), ZkNodeUtils.toData(registerInfo));
-    }
-
-    @Override
-    protected void doUnregister(RegisterInfo registerInfo) {
-        String completePath = ZkNodeUtils.buildCompletePath(registerInfo, HawthornConstants.PROVIDERS);
-        if (zkClient.exists(completePath)) {
-            zkClient.delete(completePath);
-        }
     }
 
     @Override
