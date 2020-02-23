@@ -73,27 +73,21 @@ public class ZookeeperRegistry extends AbstractRegistry {
     @Override
     protected void doSubscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
-        zkClient.subscribeChildChanges(serviceTypePath, new IZkChildListener() {
-            @Override
-            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
+        zkClient.subscribeChildChanges(serviceTypePath, (parentPath, currentChilds) -> {
 
-                List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
-                notifyListener.notify(registerInfoList);
-                log.info("ZookeeperRegistry subscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
-            }
+            List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
+            notifyListener.notify(registerInfoList);
+            log.info("ZookeeperRegistry subscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
         });
     }
 
     @Override
     protected void doUnsubscribe(RegisterInfo registerInfo, NotifyListener notifyListener) {
         String serviceTypePath = ZkNodeUtils.buildServiceTypePath(registerInfo, HawthornConstants.PROVIDERS);
-        zkClient.unsubscribeChildChanges(serviceTypePath, new IZkChildListener() {
-            @Override
-            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
-                List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
-                notifyListener.notify(registerInfoList);
-                log.info("ZookeeperRegistry unsubscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
-            }
+        zkClient.unsubscribeChildChanges(serviceTypePath, (parentPath, currentChilds) -> {
+            List<RegisterInfo> registerInfoList = childrenNodeToRegisterInfo(parentPath, currentChilds);
+            notifyListener.notify(registerInfoList);
+            log.info("ZookeeperRegistry unsubscribe service list change: path={}, currentChilds={}", parentPath, currentChilds);
         });
 
     }
