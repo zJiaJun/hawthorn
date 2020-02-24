@@ -1,5 +1,6 @@
 package com.github.zjiajun.hawthorn;
 
+
 /**
  * @author zhujiajun
  * @version 1.0
@@ -9,7 +10,7 @@ public class HawthornService {
 
     public static void start() {
 
-
+        Runtime.getRuntime().addShutdownHook(new Thread(HawthornService::stop, "hawthorn-service-thread"));
     }
 
     public static void stop() {

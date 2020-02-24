@@ -9,7 +9,6 @@ public class HawthornApp {
 
     public static void main(String[] args) {
         HawthornService.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(HawthornService::stop, "hawthorn-service-thread"));
     }
 
 }
